@@ -16,3 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Admin Route
+
+Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], function(){
+    Route::get('dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']) -> name('dashboard');
+});
+
+// Author Route
+
+Route::group(['as'=>'author.','prefix'=>'author','middleware'=>['auth','author']], function(){
+    Route::get('dashboard', [App\Http\Controllers\Author\DashboardController::class, 'index']) -> name('dashboard');
+});
